@@ -20,8 +20,13 @@ workflows:
   version: 2
   build-workflow:
     jobs:
-      - deploy_image:
+      - deploy_hold:
           type: approval
+      - deploy_image:
+          requires:
+            - deploy_hold
           filters:
+            branch:
+              - master
             tags:
               only: /^\d[.]\d[.]\d.*/
