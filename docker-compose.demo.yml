@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  consul:
+    image: "consul:1.7.2"
+    ports:
+      - "8300:8300"
+      - "8500:8500"
+
+  diplomat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8501:80"

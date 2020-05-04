@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="EN">
+<head>
+<title>Diplomat!</title>
+    <style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+    </style>
+</head>
+
+<body>
+    <h1>Welcome to Diplomat!</h1>
+
+    <h3>Discovered Services</h3>
+        <ul>
+        {{range services}} {{$name := .Name}} {{$service := service .Name}}
+            <li>
+                {{range $service}}<a href="http://127.0.0.1:8500/ui/#/dc1/services/{{$name}}">{{$name}} ({{.Address}}:{{.Port}})</a> is at  -> <a href="/{{$name}}">/{{$name}}</a><br>
+                {{else}}Nothing to show{{end}}
+            </li>
+        {{end}}
+        </ul>
+</body>
+</html>
+

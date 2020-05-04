@@ -1,0 +1,27 @@
+version: 2
+jobs:
+  deploy_image:
+    docker:
+      - image: docker:git
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run:
+          name: Docker Login
+          command: echo $DOCKER_PASS | docker login --username $DOCKER_USER --password-stdin
+      - run:
+          name: Build and Push Image
+          command: |
+            TAG=$(git describe --tags $(git rev-list --tags --max-count=1))
+            docker build -t ic2h/diplomat:$TAG .
+            docker push ic2h/diplomat:$TAG
+
+workflows:
+  version: 2
+  build-workflow:
+    jobs:
+      - deploy_image:
+          type: approval
+          filters:
+            tags:
+              only: /^\d[.]\d[.]\d.*/
